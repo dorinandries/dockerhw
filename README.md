@@ -1,4 +1,4 @@
-# Docker + Kubernetes (minikube, Windows/PowerShell) — Homework App
+# Docker + Kubernetes - Homework App
 
 This project is a proof of concept flask web app with Docker and Kubernetes manifests.  
 These instructions assume **Windows PowerShell** and **minikube with the Docker driver**.
@@ -11,7 +11,27 @@ These instructions assume **Windows PowerShell** and **minikube with the Docker 
 
 ---
 
-## 0) Prereqs
+## First steps
+
+### Create and activate a virtual environment (optional, for local development)
+```powershell
+python -m venv venv
+venv\Scripts\activate.bat
+```
+ 
+2. Install dependencies
+```powershell
+pip install -r requirements.txt
+```
+ 
+3. Run locally (without Docker)
+```powershell
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
+``` 
+Access: http://localhost:8000 and http://localhost:8000/health
+
+### Minikube + kubectl
+
 - **minikube** is installed and on your PATH (portable install works).
 - **Docker Desktop** is installed and **running** (required by the Docker driver).
 - `kubectl` is available (or use `minikube kubectl -- ...` as shown below).
@@ -23,9 +43,10 @@ minikube status
 ```
 You should see `host: Running`, `kubelet: Running`, `apiserver: Running`, `kubeconfig: Configured`.
 
+
 ---
 
-## 1) Build the image *inside* minikube’s Docker (Recommended)
+## 1) Build the image *inside* minikube’s Docker
 This avoids Windows-specific issues with `minikube image load` and doesn’t require admin rights.
 
 ```powershell
@@ -126,7 +147,7 @@ minikube delete
 - `k8s/deployment.yaml` — Deployment (3 replicas) with readiness/liveness probes; image `homework-k8s-docker:1.0`
 - `k8s/service.yaml` — ClusterIP Service `docker-homework` on port 80 → container `5000`
 
-## Final Results
+## Final results
 
 Below is a screenshot of the deployed app:
 
